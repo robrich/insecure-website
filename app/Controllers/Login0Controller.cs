@@ -29,7 +29,7 @@ namespace InsecureWebsite.Controllers
 		{
 			CurrentUserModel user = null;
 
-			string sql = $"select IsAdmin from dbo.[User] where Username = '{model.Username}' and Passowrd = '{model.Password}'";
+			string sql = $"select IsAdmin from dbo.[User] where Username = '{model.Username}' and Password = '{model.Password}'";
 			using SqlConnection conn = new SqlConnection(settings.DefaultConnection);
 			conn.Open();
 			using IDbCommand cmd = new SqlCommand(sql, conn);

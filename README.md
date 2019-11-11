@@ -3,6 +3,7 @@ Insecure Website
 
 This example site shows vulnerabilities in SQL Injection and XSS Injection.
 
+
 How to Use
 ----------
 
@@ -16,7 +17,10 @@ How to Use
 
 5. Set the connection string in `app/appsettings.json` (see https://www.connectionstrings.com/sql-server/)
 
-6. Run `InsecureWebsite.sln` from Visual Studio or `dotnet run` from the command line
+6. Either run `InsecureWebsite.sln` from Visual Studio or `dotnet run` from the command line
+
+7. Open http://localhost:5000/ in a browser to begin exploring
+
 
 Legal
 -----
