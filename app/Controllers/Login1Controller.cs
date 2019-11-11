@@ -1,5 +1,4 @@
-﻿using InsecureWebsite.Data;
-using InsecureWebsite.Models;
+﻿using InsecureWebsite.Models;
 using InsecureWebsite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -11,10 +10,10 @@ namespace InsecureWebsite.Controllers
 	public class Login1Controller : Controller
 	{
 		private readonly AppSetings settings;
-		private readonly IPasswordEncryptor passwordEncryptor;
+		private readonly INaivePasswordEncryptor passwordEncryptor;
 		private readonly ILoginStatusService loginStatusService;
 
-		public Login1Controller(AppSetings settings, IPasswordEncryptor passwordEncryptor, ILoginStatusService loginStatusService)
+		public Login1Controller(AppSetings settings, INaivePasswordEncryptor passwordEncryptor, ILoginStatusService loginStatusService)
 		{
 			this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
 			this.passwordEncryptor = passwordEncryptor ?? throw new ArgumentNullException(nameof(passwordEncryptor));

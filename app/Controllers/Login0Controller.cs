@@ -7,16 +7,14 @@ using System.Data;
 
 namespace InsecureWebsite.Controllers
 {
-	public class Login2Controller : Controller
+	public class Login0Controller : Controller
 	{
 		private readonly AppSetings settings;
-		private readonly INaivePasswordEncryptor passwordEncryptor;
 		private readonly ILoginStatusService loginStatusService;
 
-		public Login2Controller(AppSetings settings, INaivePasswordEncryptor passwordEncryptor, ILoginStatusService loginStatusService)
+		public Login0Controller(AppSetings settings, ILoginStatusService loginStatusService)
 		{
 			this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
-			this.passwordEncryptor = passwordEncryptor ?? throw new ArgumentNullException(nameof(passwordEncryptor));
 			this.loginStatusService = loginStatusService ?? throw new ArgumentNullException(nameof(loginStatusService));
 		}
 
@@ -31,11 +29,10 @@ namespace InsecureWebsite.Controllers
 		{
 			CurrentUserModel user = null;
 
-			string sql = $"select UserId, Password, Salt, IsAdmin from dbo.[User] where Username = @Username";
+			string sql = $"select IsAdmin from dbo.[User] where Username = '{model.Username}' and Passowrd = '{model.Password}'";
 			using SqlConnection conn = new SqlConnection(settings.DefaultConnection);
 			conn.Open();
 			using IDbCommand cmd = new SqlCommand(sql, conn);
-			cmd.Parameters.Add(new SqlParameter("Username", SqlDbType.NVarChar, 200) { Value = model.Username });
 			using IDataReader reader = cmd.ExecuteReader();
 
 			if (reader.Read())
@@ -43,16 +40,9 @@ namespace InsecureWebsite.Controllers
 				user = new CurrentUserModel
 				{
 					Username = model.Username,
-					IsAdmin = (bool)reader["IsAdmin"]
+					IsAdmin = (bool)reader["IsAdmin"],
+					IsAuthenticated = true
 				};
-				string dbPassword = (string)reader["Password"];
-				string salt = (string)reader["Salt"];
-				string encryptedPassword = passwordEncryptor.EncryptPassword(model.Password, salt);
-
-				if (string.Equals(encryptedPassword, dbPassword, StringComparison.InvariantCultureIgnoreCase))
-				{
-					user.IsAuthenticated = true;
-				}
 			}
 			conn.Close();
 

@@ -1,5 +1,4 @@
-﻿using InsecureWebsite.Models;
-using InsecureWebsite.Services;
+﻿using InsecureWebsite.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 

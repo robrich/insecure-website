@@ -8,13 +8,16 @@ using System.Linq;
 
 namespace InsecureWebsite.Controllers
 {
-	public class Login3Controller : Controller
+	/// <summary>
+	/// Because this correctly uses encrypted user/pass, it won't work with the non-encrypted passwords entered by the script
+	/// </summary>
+	public class LoginFixedController : Controller
 	{
 		private readonly InsecureWebsiteDbContext db;
-		private readonly INaivePasswordEncryptor passwordEncryptor;
+		private readonly IRealPasswordEncryptor passwordEncryptor;
 		private readonly ILoginStatusService loginStatusService;
 
-		public Login3Controller(InsecureWebsiteDbContext insecureWebsiteDbContext, INaivePasswordEncryptor passwordEncryptor, ILoginStatusService loginStatusService)
+		public LoginFixedController(InsecureWebsiteDbContext insecureWebsiteDbContext, IRealPasswordEncryptor passwordEncryptor, ILoginStatusService loginStatusService)
 		{
 			this.db = insecureWebsiteDbContext ?? throw new ArgumentNullException(nameof(insecureWebsiteDbContext));
 			this.passwordEncryptor = passwordEncryptor ?? throw new ArgumentNullException(nameof(passwordEncryptor));

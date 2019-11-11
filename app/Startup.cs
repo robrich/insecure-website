@@ -30,9 +30,10 @@ namespace InsecureWebsite
 
 			services.AddDbContext<InsecureWebsiteDbContext>(options => options.UseSqlServer(defaultConnection));
 
-			//If PasswordEncryptor hashed passwords: services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+			services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+			services.AddSingleton<IRealPasswordEncryptor, RealPasswordEncryptor>();
+			services.AddSingleton<INaivePasswordEncryptor, NaivePasswordEncryptor>();
 			services.AddSingleton<ILoginStatusService, LoginStatusService>();
-			services.AddSingleton<IPasswordEncryptor, PasswordEncryptor>();
 
 			services.AddControllersWithViews();
 		}
